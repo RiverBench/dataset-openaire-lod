@@ -50,7 +50,7 @@ See also [the project documentation](https://web.archive.org/web/20201230151925/
         foaf:nick "Ostrzyciel" ;
         rdfs:comment "Processing the dataset for RiverBench" ;
         foaf:homepage <https://github.com/Ostrzyciel>, <https://orcid.org/0000-0002-2543-9461> ;
-        rbdoc:hasDocWeight 3 ;
+        rbdoc:hasDocWeight 5 ;
     ] ;
     dcterms:source 
         <https://doi.org/10.5281/zenodo.4587369> , 
