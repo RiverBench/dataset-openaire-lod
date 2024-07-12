@@ -19,74 +19,79 @@
 :dataset
     a rb:Dataset, dcat:Dataset ;
     dcterms:conformsTo <https://w3id.org/riverbench/schema/metadata> ;
-    dcterms:identifier "[YOUR DATASET ID (only a-z, 0-9, -)]" ;
+    dcterms:identifier "openaire-lod" ;
 
-    dcterms:title "[HUMAN-READABLE NAME OF YOUR DATASET]"@en ;
-    dcterms:description "[ELABORATED DESCRIPTION OF THE DATASET]"@en ;
-    dcterms:issued "[DATE OF INITIAL SUBMISSION, YYYY-MM-DD]"^^xsd:date ;
+    dcterms:title "OpenAIRE LOD graph"@en ;
+    dcterms:description """[OpenAIRE LOD](https://web.archive.org/web/20201230151925/http://lod.openaire.eu/documentation) was a service that exported data from the OpenAIRE information space in RDF format, using Linked Open Data principles. The data was exported to Zenodo, with the [last dump dated at March 3, 2021](https://zenodo.org/records/4587369). This dataset consists of the "result" subset of the OpenAIRE LOD graph, including scientific results such as publications.
 
-    # License and attribution
-    # SPDX license list: https://spdx.org/licenses/
-    # Do not include ".html" at the end of the SPDX license URL
-    # Example of a valid URL: https://spdx.org/licenses/CC-BY-4.0
-    dcterms:license <SPDX-LICENSE-URL> ;
-    dcterms:rights "[ADDITIONAL LICENSING NOTES, IF NEEDED]"@en ;
-    # Feel free to add more creators or use any FOAF properties here
-    dcterms:creator [
-        foaf:name "[YOUR NAME]" ;
-        foaf:nick "[YOUR NICK]" ;
-        foaf:homepage <LINK-TO-YOUR-PAGE> ;
-        # Optional: use this property to order creators in the generated docs
-        rbdoc:hasDocWeight 1 ;
-    ] ;
-    # If applicable, add a link to the original source of the dataset
-    dcterms:source <LINK-TO-SOURCE> ;
+Only records that were valid RDF and had the "dateofcollection" property were included here. They were then sorted by the date of collection in ascending order. The first 2 (out of 28) million records that were obtained in this way are a part of this dataset.
+
+See also [the project documentation](https://web.archive.org/web/20201230151925/http://lod.openaire.eu/documentation) and [the used ontology](https://web.archive.org/web/20201230151925/http://lod.openaire.eu/vocab).
+"""@en ;
+    dcterms:issued "2024-07-12"^^xsd:date ;
+    dcterms:license <https://spdx.org/licenses/CC0-1.0> ;
     
-    # Themes from EuroVoc
-    # E.g., eurovoc:4267, eurovoc:7219
-    # Use only concepts (those without numbers in their names), 
-    # not domain concepts or concept schemes.
-    # EuroVoc browser: https://op.europa.eu/en/web/eu-vocabularies/concept-scheme/-/resource?uri=http://eurovoc.europa.eu/100141
-    dcat:theme <ADD-AT-LEAST-ONE-THEME> ;
+    dcterms:creator [
+        foaf:name "Giorgos Alexiou" ;
+        foaf:homepage <https://orcid.org/0000-0003-2244-4916> ;
+        rbdoc:hasDocWeight 1 ;
+    ] , [
+        foaf:name "George Papastefanatos" ;
+        foaf:homepage <https://orcid.org/0000-0002-9273-9843> ;
+        rbdoc:hasDocWeight 2 ;
+    ] , [
+        foaf:name "Sahar Vahdati" ;
+        rbdoc:hasDocWeight 3 ;
+    ] , [
+        foaf:name "Christoph Lange" ;
+        rbdoc:hasDocWeight 4 ;
+    ] , [
+        foaf:name "Piotr Sowiński" ;
+        foaf:nick "Ostrzyciel" ;
+        rdfs:comment "Processing the dataset for RiverBench" ;
+        foaf:homepage <https://github.com/Ostrzyciel>, <https://orcid.org/0000-0002-2543-9461> ;
+        rbdoc:hasDocWeight 3 ;
+    ] ;
+    dcterms:source 
+        <https://doi.org/10.5281/zenodo.4587369> , 
+        <https://web.archive.org/web/20201230151925/http://lod.openaire.eu/documentation> ;
+    
+    dcat:theme 
+        eurovoc:c_99a79cea , # open science
+        eurovoc:c_5ea6e5c4 , # open data
+        eurovoc:6306 , # research results
+        eurovoc:2924 , # scientific research
+        eurovoc:2896 , # research report
+        eurovoc:4864 # bibliography
+    ;
 
     # Technical metadata
-    # URIs of the vocabularies and ontologies used in the dataset
-    void:vocabulary <ADD-VOCABULARY-URIS> ;
-    # Set to number of stream elements in the dataset
-    rb:hasStreamElementCount -1 ;
-    # Stream type according to the RDF Stream Taxonomy (RDF-STaX)
-    # Each dataset must have two stream type usages: one for the grouped
-    # stream type and one for the flat stream type.
-    # Full list of stream types: https://w3id.org/stax/ontology
-    # STaX stream types overview: https://w3id.org/stax/dev/taxonomy/
+    void:vocabulary <http://lod.openaire.eu/vocab> ;
+    rb:hasStreamElementCount 2000000 ;
     stax:hasStreamTypeUsage [
         a stax:RdfStreamTypeUsage ;
-        rdfs:comment "[GROUPED STREAM TYPE EXPLANATION]"@en ;
-        stax:hasStreamType <GROUPED-STREAM-TYPE-URI> ;
+        rdfs:comment "The dataset can be viewed as a stream of graphs, with each graph corresponding to one scientific result from OpenAIRE. Each graph is uniquely identified by its subject IRI."@en ;
+        stax:hasStreamType stax:subjectGraphStream ;
     ] , [
         a stax:RdfStreamTypeUsage ;
-        rdfs:comment "[FLAT STREAM TYPE EXPLANATION]"@en ;
-        stax:hasStreamType <FLAT-STREAM-TYPE-URI> ;
+        rdfs:comment "The dataset can be viewed as a flattened stream of triples."@en ;
+        stax:hasStreamType stax:flatTripleStream ;
     ] ;
     rb:hasStreamElementSplit [
-        # At least one of: rb:StatementCountStreamElementSplit,
-        #   rb:TimeStreamElementSplit, rb:TopicStreamElementSplit
-        a <SPLIT-TYPE> ;
-        # If your dataset is split by time, specify the temporal property:
-        # rb:hasTemporalProperty <PROPERTY-IRI> ;
-        rdfs:comment "[FURTHER EXPLANATION ON THE SPLIT]"@en ;
-        # If your dataset is an RDF subject graph stream, specify the
-        # subject node shape using SHACL:
-        # rb:hasSubjectShape [  ] ;
+        a rb:TimeStreamElementSplit, rb:TopicStreamElementSplit ;
+        rb:hasTemporalProperty <http://lod.openaire.eu/vocab/dateofcollection> ;
+        rdfs:comment "Each stream element corresponds to exactly one scientific result in OpenAIRE, each with an assigned timestamp (time of collection)."@en ;
+        rb:hasSubjectShape [ 
+            rdfs:comment "Target instances of class ResultEntity."@en ;
+            sh:targetClass <http://lod.openaire.eu/vocab/ResultEntity> ;
+        ] ;
     ] ;
-    rb:conformsToRdf11 "" ; # true or false
-    rb:conformsToRdfStarDraft_20211217 "" ; # true or false
-    rb:usesGeneralizedRdfDatasets "" ; # true or false
-    rb:usesGeneralizedTriples "" ; # true or false
-    rb:usesRdfStar "" ; # true or false
+    rb:conformsToRdf11 true ;
+    rb:conformsToRdfStarDraft_20211217 true ;
+    rb:usesGeneralizedRdfDatasets false ;
+    rb:usesGeneralizedTriples false ;
+    rb:usesRdfStar false ;
     
-    # Add any additional metadata here
-    # Examples of useful properties:
-    # dcat:temporalResolution, dcat:spatialResolutionInMeters,
-    # dcterms:language
+    # Other metadata
+    dcterms:language "en" ;
 .
